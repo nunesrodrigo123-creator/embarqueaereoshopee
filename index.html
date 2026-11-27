@@ -150,14 +150,14 @@ button.wa svg{width:22px;height:22px;flex:none}
 #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#0b1730;color:#fff;border:1px solid var(--sky);padding:12px 18px;border-radius:12px;font-size:14px;max-width:92vw;opacity:0;pointer-events:none;transition:.25s;z-index:50;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 @media print{.wab,#toast{display:none}}
-.top{grid-template-columns:1fr auto;grid-template-areas:"ttl ttl" "brand clock";gap:6px 20px;align-items:center}
-.ttl{grid-area:ttl;text-align:center}
-.brand{grid-area:brand}
-.clock{grid-area:clock;justify-self:end;align-self:center;text-align:right}
-.ttl{margin:0}.ttl p{margin:2px 0 0}
+.top{display:block}
+.ttl{text-align:center;margin:0 0 12px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.clock{flex:none;text-align:right}
+.ttl p{margin:2px 0 0}
 h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercase}
 .ttl p{text-align:center}
-@media(max-width:760px){.top{grid-template-columns:1fr;grid-template-areas:"ttl" "brand" "clock"}}
+@media(max-width:560px){.hrow{flex-direction:column;align-items:center}.clock{text-align:center}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 </head>
@@ -165,6 +165,11 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
 <div class="wrap">
 
 <header class="top">
+  <div class="ttl">
+    <h1 contenteditable spellcheck="false" data-k="titulo">Embarque Aéreo Shopee</h1>
+    <p contenteditable spellcheck="false" 
+  </div>
+  <div class="hrow">
   <div class="brand">
     <label class="logo" title="Clique para trocar a logo">
       <input type="file" accept="image/*" hidden data-logo="azul">
@@ -176,11 +181,8 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
       <span class="shp-w"><svg viewBox='0 0 255 72' role='img' aria-label='Shopee'><path d='M17 24V17a13 13 0 0 1 26 0v7' fill='none' stroke='#e0583a' stroke-width='5'/><path d='M1 22H59L56 63Q55.7 68 51 68H9Q4.3 68 4 63Z' fill='#e0583a'/><path d='M39 34Q36 30 30 30Q22 30 22 36Q22 41 30 43Q38 45 38 51Q38 57 30 57Q23.5 57 21 53' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/><text x='70' y='56' textLength='183' lengthAdjust='spacingAndGlyphs' fill='#e0583a' style="font:500 56px Quicksand,'Varela Round','Trebuchet MS',Arial,sans-serif">Shopee</text></svg></span>
     </label>
   </div>
-  <div class="ttl">
-    <h1 contenteditable spellcheck="false" data-k="titulo">Embarque Aéreo Shopee</h1>
-    <p contenteditable spellcheck="false" 
-  </div>
   <div class="clock"><b id="clk">--:--</b><small id="dt"></small></div>
+  </div>
 </header>
 
 <nav class="tabs" role="tablist">
