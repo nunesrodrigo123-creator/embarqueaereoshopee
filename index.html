@@ -67,7 +67,6 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 .sec>h2,.obs h2{text-align:center}
 .sec>h2::after{margin-left:auto;margin-right:auto}
 @media(max-width:760px){.brand{justify-content:center}}
-.pills{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
 .dbadge{display:inline-block;margin-top:6px;font-size:12px;color:var(--ice)}
 .dbadge b{background:#2a4fd6;color:#fff;border-radius:6px;padding:2px 8px;font-family:ui-monospace,Menlo,Consolas,monospace}
 .frow{display:flex;gap:8px;margin-bottom:8px}
@@ -151,10 +150,11 @@ button.wa svg{width:22px;height:22px;flex:none}
 #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#0b1730;color:#fff;border:1px solid var(--sky);padding:12px 18px;border-radius:12px;font-size:14px;max-width:92vw;opacity:0;pointer-events:none;transition:.25s;z-index:50;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 @media print{.wab,#toast{display:none}}
-.top{grid-template-columns:1fr auto;grid-template-areas:"ttl ttl" "brand clock";row-gap:16px}
+.top{grid-template-columns:1fr auto;grid-template-areas:"ttl ttl" "brand clock";gap:6px 20px;align-items:center}
 .ttl{grid-area:ttl;text-align:center}
 .brand{grid-area:brand}
-.clock{grid-area:clock}
+.clock{grid-area:clock;justify-self:end;align-self:center;text-align:right}
+.ttl{margin:0}.ttl p{margin:2px 0 0}
 h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercase}
 .ttl p{text-align:center}
 @media(max-width:760px){.top{grid-template-columns:1fr;grid-template-areas:"ttl" "brand" "clock"}}
@@ -199,12 +199,7 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
     <button class="chip" data-dest="FOR" aria-pressed="false">FOR<i></i></button>
     <button class="chip" data-dest="PVH" aria-pressed="true">PVH<i></i></button>
   </div>
-  <div class="pills" role="group" aria-label="Destino">
-    <button type="button" class="pill" data-d="MAO">MAO</button>
-    <button type="button" class="pill" data-d="FOR">FOR</button>
-    <button type="button" class="pill" data-d="PVH">PVH</button>
-  </div>
-  <span class="hint">Escolha o destino e lance os dados dele</span>
+  <span class="hint">Clique em qualquer número ou texto para editar</span>
 </div>
 
 <section class="sec">
