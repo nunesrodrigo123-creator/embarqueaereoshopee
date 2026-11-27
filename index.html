@@ -364,7 +364,6 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
       </div>
       <div class="sep"></div>
       <div class="line"><span>✈ Embarcou hoje</span><strong>${lam(v.hemb)}</strong></div>${voos}
-      <div class="sub">Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)</div>
       <div class="sep"></div>
       <h4>Previsão</h4><p>Acordado embarque: ${lam(v.proj)}${v.fret?" · Fretamentos: "+esc(v.fret):""}</p>
       <h4>Observação</h4><p class="${v.obs?"":"mut"}">${v.obs?esc(v.obs).replace(/\n/g,"<br>"):"Sem observações."}</p></article>`;
@@ -373,7 +372,7 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
     if(!o||!o.lancado) return `*${dst} · Shopee*\nNenhum dado lançado.`;
     const v=o, m=metrics(v,true);
     return [`*${dst} · Shopee* (${dfmt(ds)})`,`Lâminas no piso agora: ${m.noPiso}`,`Backlog D-2: ${n(v.back)} | Remanescentes: ${n(v.rem)}`,`Recebido hoje: ${n(v.hrec)} | Embarcou hoje: ${n(v.hemb)}`]
-      .concat(lines(v.voos).map(x=>"  • "+x),[`Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)`,`Acordado embarque: ${n(v.proj)}${v.fret?" | Fretamentos: "+v.fret:""}`,`Obs: ${v.obs||"sem observações"}`]).join("\n");
+      .concat(lines(v.voos).map(x=>"  • "+x),[`Acordado embarque: ${n(v.proj)}${v.fret?" | Fretamentos: "+v.fret:""}`,`Obs: ${v.obs||"sem observações"}`]).join("\n");
   }
   const copy=(t,msg)=>{try{navigator.clipboard.writeText(t).then(()=>alert(msg))}catch(e){prompt("Copie:",t)}};
   // ---------- Histórico: Overviews gerados ----------
