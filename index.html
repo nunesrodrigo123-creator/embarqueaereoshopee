@@ -254,8 +254,9 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
 
 <div class="gen"><button id="gen">Gerar overview</button></div>
 <section id="ovw" hidden>
-  <div class="ovbar"><h2>Overview da operação</h2><span class="svmsg" id="sv"></span><button class="g" id="cpt">Copiar texto (WhatsApp)</button></div>
+  <div class="ovbar"><h2>Overview da operação</h2><span class="svmsg" id="sv"></span><button class="g" id="cpt">Copiar texto</button></div>
   <div id="ovg"></div>
+  <div class="wab"><button class="wa" id="shp"></button></div>
 </section>
 
 <div class="tools">
@@ -400,9 +401,9 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
   $("#gen").onclick=()=>{
     H.unshift(snap()); saveH(); renderHist();
     $("#ovg").innerHTML=DESTS.map(x=>card(x,cur(x),d.value)).join("");
-    $("#sv").textContent="✓ Salvo em Overviews gerados"; $("#ovw").hidden=false; $("#ovw").scrollIntoView({behavior:"smooth"});
+    $("#sv").textContent="✓ Salvo em Overviews gerados"; $("#ovw").hidden=false; $("#ovw").scrollIntoView({behavior:"smooth"}); setTimeout(()=>makeImg(H[0]),300);
   };
-  $("#cpt").onclick=()=>copy(textFor(S.dest,cur(S.dest),d.value),"Texto copiado.");
+  $("#cpt").onclick=()=>copy(fullText({date:d.value,d:Object.fromEntries(DESTS.map(x=>[x,cur(x)]))}),"Texto copiado.");
   $("#hclear").onclick=()=>{if(H.length&&confirm("Excluir TODOS os overviews gerados?")){H=[];saveH();renderHist()}};
   $("#hl").addEventListener("click",ev=>{
     const b=ev.target.closest("button[data-a]"); if(!b)return;
@@ -413,6 +414,8 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
     else openEd(H[i]);
   });
 
+  $("#shp").innerHTML=WAI+" Compartilhar overview";
+  $("#shp").onclick=()=>{if(H.length)sendWA(0)};
   // ---------- Compartilhar overview (automático) ----------
   const IMG={};
   const sigOf=e=>JSON.stringify([e.date,e.d]);
@@ -422,10 +425,16 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
   function makeImg(e){
     const sig=sigOf(e), c=IMG[e.id];
     if(c&&c.sig===sig) return c.p;
-    const el=document.querySelector('.he[data-id="'+e.id+'"] .cap');
-    if(!window.html2canvas||!el) return Promise.resolve(null);
+    if(!window.html2canvas) return Promise.resolve(null);
+    const hr=new Date(e.ts).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    const cs=DESTS.filter(x=>getD(e)[x]&&getD(e)[x].lancado).map(x=>card(x,getD(e)[x],e.date)).join("");
+    const el=document.createElement("div"); el.className="cap";
+    el.style.cssText="position:fixed;left:-99999px;top:0;width:920px";
+    el.innerHTML=`<div class="caph">Embarque Aéreo Shopee · ${dfmt(e.date)} · ${hr}</div><div class="hg">${cs}</div>`;
+    document.body.appendChild(el);
     const p=html2canvas(el,{backgroundColor:"#001a45",scale:2,useCORS:true,logging:false})
-      .then(cv=>new Promise(r=>cv.toBlob(b=>r(b?new File([b],"overview-"+e.date+".png",{type:"image/png"}):null),"image/png"))).catch(()=>null);
+      .then(cv=>new Promise(r=>cv.toBlob(b=>r(b?new File([b],"overview-"+e.date+".png",{type:"image/png"}):null),"image/png"))).catch(()=>null)
+      .then(f=>{el.remove();return f});
     const rec={sig,p,f:null}; IMG[e.id]=rec; p.then(f=>{rec.f=f});
     return p;
   }
@@ -447,6 +456,7 @@ h1{font-size:clamp(22px,4.6vw,38px);letter-spacing:.06em;text-transform:uppercas
     if(canShareF(f)){shareNow(f,t);return}
     if(f){fallbackWA(t,f);return}
     toast("Preparando a imagem do overview…");
+    if(!window.html2canvas){fallbackWA(t,null);toast("Não foi possível gerar a imagem agora (sem internet?). Enviei só o texto.");return}
     makeImg(e).then(ff=>{if(canShareF(ff))shareNow(ff,t);else fallbackWA(t,ff)});
   }
 
