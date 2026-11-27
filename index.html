@@ -129,7 +129,45 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 .ov .mut{opacity:.7}
 .ov .badge{display:inline-block;margin-top:14px}
 @media print{.gen,.ovbar button,.chips{display:none}}
+.tabs{display:flex;gap:8px;margin:16px 0 0;border-bottom:1px solid var(--line)}
+.tab{background:transparent;color:var(--ice);border:0;border-bottom:3px solid transparent;border-radius:0;padding:10px 16px;font:700 14px Montserrat,sans-serif}
+.tab[aria-pressed=true]{color:#fff;border-bottom-color:var(--sky)}
+.tab span{background:var(--sky);color:#001235;border-radius:10px;padding:1px 8px;margin-left:6px;font-size:12px}
+.hhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.hhead h2{margin:0;font-size:20px}
+.day{margin-top:22px}
+.dh{margin:0 0 10px;font-size:16px;text-transform:capitalize;padding-bottom:6px;border-bottom:2px solid var(--sky)}
+.dh small{color:var(--ice);font-weight:500;margin-left:8px;text-transform:none}
+.he{background:var(--card);border-radius:14px;padding:12px;margin-bottom:14px;border:1px solid var(--line)}
+.hbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.hbar span{display:flex;gap:8px;flex-wrap:wrap}
+.hbar button{padding:7px 12px}
+button.dng{color:#ff8a80;border-color:rgba(255,90,79,.5)}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+.empty{padding:30px;text-align:center;color:var(--ice)}
+.svmsg{color:var(--ok);font-size:13px;font-weight:600}
+dialog{background:#0b1730;color:#fff;border:1px solid var(--line);border-radius:16px;padding:0;width:min(560px,94vw);max-height:92vh}
+dialog::backdrop{background:#000a}
+.edin{padding:18px;display:grid;gap:12px;max-height:90vh;overflow:auto}
+.edin h3{margin:0}
+.edin label{display:grid;gap:4px;font-size:12px;color:var(--ice);font-weight:600}
+.edin input[type=text],.edin input[type=date],.edin textarea{font:500 15px Montserrat,sans-serif;background:var(--card);color:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color-scheme:dark}
+.edin .chk{display:flex;align-items:center;gap:8px;color:#fff;font-size:14px}
+.edf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.edf label:nth-last-child(-n+2){grid-column:1/-1}
+.edb{display:flex;gap:10px;justify-content:flex-end}
+@media(max-width:560px){.edf{grid-template-columns:1fr}}
+@media print{.tabs{display:none}}
+.cap{background:#001a45;border-radius:12px;padding:12px}
+.caph{font-weight:700;font-size:14px;margin-bottom:10px;color:#fff}
+.wab{margin-top:12px;text-align:center}
+button.wa{background:#25d366;color:#04210f;display:inline-flex;align-items:center;gap:8px;font-weight:700;padding:10px 18px}
+button.wa svg{width:22px;height:22px;flex:none}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#0b1730;color:#fff;border:1px solid var(--sky);padding:12px 18px;border-radius:12px;font-size:14px;max-width:92vw;opacity:0;pointer-events:none;transition:.25s;z-index:50;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media print{.wab,#toast{display:none}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -152,6 +190,13 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   </div>
   <div class="clock"><b id="clk">--:--</b><small id="dt"></small></div>
 </header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab" data-tab="painel" aria-pressed="true">Painel</button>
+  <button class="tab" data-tab="hist" aria-pressed="false">Overviews gerados <span id="hn">0</span></button>
+</nav>
+
+<div id="v-painel">
 
 <div class="ref">
   <b>Data de referência:</b>
@@ -237,7 +282,7 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 
 <div class="gen"><button id="gen">Gerar overview</button></div>
 <section id="ovw" hidden>
-  <div class="ovbar"><h2>Overview da operação</h2><button class="g" id="cpt">Copiar texto (WhatsApp)</button></div>
+  <div class="ovbar"><h2>Overview da operação</h2><span class="svmsg" id="sv"></span><button class="g" id="cpt">Copiar texto (WhatsApp)</button></div>
   <div id="ovg"></div>
 </section>
 
@@ -246,6 +291,25 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   <button class="g" id="copy">Copiar dados (JSON)</button>
   <button id="print">Imprimir / salvar PDF</button>
 </div>
+</div>
+
+<div id="v-hist" hidden>
+  <div class="hhead"><h2>Overviews gerados</h2><button class="g" id="hclear">Excluir todos</button></div>
+  <p class="mut" style="color:var(--ice);font-size:13px;margin:4px 0 0">Separados por data de referência. Edite ou exclua qualquer overview.</p>
+  <div id="hl"></div>
+</div>
+
+<dialog id="ed"><div class="edin">
+  <h3>Editar overview</h3>
+  <label>Data do overview <input type="date" id="edd"></label>
+  <div class="chips" id="edc"></div>
+  <label class="chk"><input type="checkbox" id="edl"> Destino com dados lançados</label>
+  <div class="edf" id="edf"></div>
+  <div class="edb"><button class="g" id="edx">Cancelar</button><button id="eds">Salvar alterações</button></div>
+</div></dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
 <footer>Azul Logística · Operação Shopee · edições ficam salvas neste navegador</footer>
 </div>
 
@@ -327,11 +391,12 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   const lam=x=>n(x)+(n(x)===1?" lâmina":" lâminas");
   const pill=(x,a,b)=>n(x)>0?`<em class="pill w">${b}</em>`:`<em class="pill o">${a}</em>`;
   const lines=s=>String(s).split("\n").map(x=>x.trim()).filter(Boolean);
-  const dstr=()=>{const p=(d.value||"").split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:""};
-  function card(dst){
-    const h=`<header><span class="bd">${dst}</span><h3>Shopee</h3><small>${dstr()}</small></header>`;
-    if(!launched(dst)) return `<article class="ov">${h}<p class="mut" style="margin-top:14px">Nenhum dado lançado para ${dst}.</p></article>`;
-    const v=vals(dst), m=metrics(v,true);
+  const dfmt=ds=>{const p=(ds||"").split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:""};
+  const cur=dst=>Object.assign({lancado:launched(dst)},vals(dst));
+  function card(dst,o,ds){
+    const h=`<header><span class="bd">${dst}</span><h3>Shopee</h3><small>${dfmt(ds)}</small></header>`;
+    if(!o||!o.lancado) return `<article class="ov">${h}<p class="mut" style="margin-top:14px">Nenhum dado lançado para ${dst}.</p></article>`;
+    const v=o, m=metrics(v,true);
     const voos=lines(v.voos).map(x=>`<div class="sub">${esc(x)}</div>`).join("");
     return `<article class="ov">${h}
       <div class="big"><b>${m.noPiso}</b><span>${m.noPiso===1?"lâmina":"lâminas"} no piso agora</span></div>
@@ -348,20 +413,109 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
       <h4>Observação</h4><p class="${v.obs?"":"mut"}">${v.obs?esc(v.obs).replace(/\n/g,"<br>"):"Sem observações."}</p>
       <span class="badge" style="background:${m.st[1]}">${m.st[0]}</span></article>`;
   }
-  function textFor(dst){
-    if(!launched(dst)) return `*${dst} · Shopee*\nNenhum dado lançado.`;
-    const v=vals(dst), m=metrics(v,true);
-    return [`*${dst} · Shopee* (${dstr()})`,`Lâminas no piso agora: ${m.noPiso}`,`Backlog D-2: ${n(v.back)} | Remanescentes: ${n(v.rem)}`,`Recebido hoje: ${n(v.hrec)} | Embarcou hoje: ${n(v.hemb)}`]
+  function textFor(dst,o,ds){
+    if(!o||!o.lancado) return `*${dst} · Shopee*\nNenhum dado lançado.`;
+    const v=o, m=metrics(v,true);
+    return [`*${dst} · Shopee* (${dfmt(ds)})`,`Lâminas no piso agora: ${m.noPiso}`,`Backlog D-2: ${n(v.back)} | Remanescentes: ${n(v.rem)}`,`Recebido hoje: ${n(v.hrec)} | Embarcou hoje: ${n(v.hemb)}`]
       .concat(lines(v.voos).map(x=>"  • "+x),[`Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)`,`Projeção de embarque: ${n(v.proj)}${v.fret?" | Fretamentos: "+v.fret:""}`,`Obs: ${v.obs||"sem observações"}`,`Status: ${m.st[0]}`]).join("\n");
   }
   const copy=(t,msg)=>{try{navigator.clipboard.writeText(t).then(()=>alert(msg))}catch(e){prompt("Copie:",t)}};
-  $("#gen").onclick=()=>{$("#ovg").innerHTML=DESTS.map(card).join("");$("#ovw").hidden=false;$("#ovw").scrollIntoView({behavior:"smooth"})};
-  $("#cpt").onclick=()=>copy(DESTS.map(textFor).join("\n\n"),"Texto copiado.");
+  // ---------- Histórico: Overviews gerados ----------
+  const WAI=`<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z"/><path fill="#25d366" d="M11.5 9c.6-.6 1.4-.4 1.8.2l1.1 1.9c.3.6.1 1.2-.4 1.6l-.6.5c.8 1.6 2 2.8 3.6 3.6l.5-.6c.4-.5 1-.7 1.6-.4l1.9 1.1c.6.4.8 1.2.2 1.8-.9 1.1-2.3 1.5-3.7 1.1-3.9-1.1-6.7-3.9-7.8-7.8-.4-1.4 0-2.8 1.1-3.7z"/></svg>`;
+  const HK="azul-shopee-hist"; let H=[]; try{H=JSON.parse(localStorage.getItem(HK)||"[]")}catch(e){}
+  const saveH=()=>{try{localStorage.setItem(HK,JSON.stringify(H))}catch(e){}};
+  const blank=()=>{const v={};KEYS.forEach(k=>v[k]=(k==="fret"||k==="obs"||k==="voos")?"":"0");return v};
+  const getD=e=>(e&&e.d)||{};
+  function renderHist(){renderHist0();if(!$("#v-hist").hidden)setTimeout(prerender,120)}
+  function renderHist0(){
+    $("#hn").textContent=H.length;
+    const box=$("#hl");
+    if(!H.length){box.innerHTML='<p class="empty">Nenhum overview gerado ainda. Use o botão "Gerar overview" no painel.</p>';return}
+    const g={}; H.forEach(e=>(g[e.date]=g[e.date]||[]).push(e));
+    box.innerHTML=Object.keys(g).sort().reverse().map(ds=>{
+      const es=g[ds].sort((a,b)=>b.ts.localeCompare(a.ts));
+      const t=new Date(ds+"T12:00:00").toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+      return `<section class="day"><h3 class="dh">${t}<small>${es.length} overview${es.length>1?"s":""}</small></h3>`+es.map(e=>{
+        const hr=new Date(e.ts).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+        const cs=DESTS.filter(x=>getD(e)[x]&&getD(e)[x].lancado).map(x=>card(x,getD(e)[x],e.date)).join("")||'<p class="empty">Nenhum destino lançado neste overview.</p>';
+        return `<div class="he" data-id="${e.id}"><div class="hbar"><b>Gerado às ${hr}</b><span><button class="g" data-a="ed">Editar</button><button class="g" data-a="cp">Copiar texto</button><button class="g dng" data-a="del">Excluir</button></span></div><div class="cap"><div class="caph">Embarque Aéreo Shopee · ${dfmt(e.date)} · ${hr}</div><div class="hg">${cs}</div></div><div class="wab"><button class="wa" data-a="wa">${WAI} Enviar para WhatsApp</button></div></div>`}).join("")+`</section>`;
+    }).join("");
+  }
+  const snap=()=>{const o={};DESTS.forEach(x=>o[x]=cur(x));return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts:new Date().toISOString(),date:d.value||DEFAULTS.data,d:o}};
+  $("#gen").onclick=()=>{
+    H.unshift(snap()); saveH(); renderHist();
+    $("#ovg").innerHTML=DESTS.map(x=>card(x,cur(x),d.value)).join("");
+    $("#sv").textContent="✓ Salvo em Overviews gerados"; $("#ovw").hidden=false; $("#ovw").scrollIntoView({behavior:"smooth"});
+  };
+  $("#cpt").onclick=()=>copy(DESTS.map(x=>textFor(x,cur(x),d.value)).join("\n\n"),"Texto copiado.");
+  $("#hclear").onclick=()=>{if(H.length&&confirm("Excluir TODOS os overviews gerados?")){H=[];saveH();renderHist()}};
+  $("#hl").addEventListener("click",ev=>{
+    const b=ev.target.closest("button[data-a]"); if(!b)return;
+    const i=H.findIndex(x=>x.id===b.closest(".he").dataset.id); if(i<0)return;
+    if(b.dataset.a==="del"){if(confirm("Excluir este overview?")){H.splice(i,1);saveH();renderHist()}}
+    else if(b.dataset.a==="cp") copy(DESTS.map(x=>textFor(x,getD(H[i])[x],H[i].date)).join("\n\n"),"Texto copiado.");
+    else if(b.dataset.a==="wa") sendWA(i);
+    else openEd(H[i]);
+  });
+
+  // ---------- Enviar para WhatsApp (automático) ----------
+  const IMG={};
+  const sigOf=e=>JSON.stringify([e.date,e.d]);
+  const fullText=e=>DESTS.map(x=>textFor(x,getD(e)[x],e.date)).join("\n\n");
+  const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),6000)};
+  function makeImg(e){
+    const sig=sigOf(e), c=IMG[e.id];
+    if(c&&c.sig===sig) return c.p;
+    const el=document.querySelector('.he[data-id="'+e.id+'"] .cap');
+    if(!window.html2canvas||!el) return Promise.resolve(null);
+    const p=html2canvas(el,{backgroundColor:"#001a45",scale:2,useCORS:true,logging:false})
+      .then(cv=>new Promise(r=>cv.toBlob(b=>r(b?new File([b],"overview-"+e.date+".png",{type:"image/png"}):null),"image/png"))).catch(()=>null);
+    const rec={sig,p,f:null}; IMG[e.id]=rec; p.then(f=>{rec.f=f});
+    return p;
+  }
+  // gera as imagens em segundo plano quando a aba é aberta, para o envio ser imediato
+  function prerender(){H.reduce((p,e)=>p.then(()=>makeImg(e)),Promise.resolve())}
+  const canShareF=f=>!!(f&&navigator.canShare&&navigator.canShare({files:[f]}));
+  function fallbackWA(t,f){
+    if(f){try{navigator.clipboard.write([new ClipboardItem({"image/png":f})]).catch(()=>{})}catch(x){}}
+    window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");
+    toast(f?"WhatsApp aberto com o texto. A imagem foi copiada: cole (Ctrl+V) na conversa.":"WhatsApp aberto com o texto do overview.");
+  }
+  function shareNow(f,t){
+    navigator.share({files:[f],text:t}).catch(er=>{if(er&&er.name!=="AbortError")fallbackWA(t,f)});
+    toast("Toque em WhatsApp e escolha quem vai receber. O texto também já está copiado.");
+  }
+  function sendWA(i){
+    const e=H[i], t=fullText(e), c=IMG[e.id], f=(c&&c.sig===sigOf(e))?c.f:null;
+    try{navigator.clipboard.writeText(t).catch(()=>{})}catch(x){}
+    if(canShareF(f)){shareNow(f,t);return}
+    if(f){fallbackWA(t,f);return}
+    toast("Preparando a imagem do overview…");
+    makeImg(e).then(ff=>{if(canShareF(ff))shareNow(ff,t);else fallbackWA(t,ff)});
+  }
+
+  // editor
+  const FIELDS=[["rem","Remanescentes","n"],["rec","Recebimento do dia (ontem)","n"],["emb","Embarque realizado (ontem)","n"],["piso","Total no piso fim do dia (D0)","n"],["back","Backlog D-2","n"],["rem2","Remanescente","n"],["hemb","Lâminas embarcadas (hoje)","n"],["hrec","Recebimento hoje até o momento","n"],["proj","Projeção de embarque","n"],["fret","Previsão fretamentos","t"],["voos","Voos que embarcaram hoje (um por linha)","ta"],["obs","Observação","ta"]];
+  const ed=$("#ed"); let E=null, eDest="PVH";
+  $("#edf").innerHTML=FIELDS.map(f=>`<label>${f[1]}${f[2]==="ta"?`<textarea id="ef-${f[0]}" rows="3"></textarea>`:`<input id="ef-${f[0]}" type="text"${f[2]==="n"?' inputmode="decimal"':""}>`}</label>`).join("");
+  $("#edc").innerHTML=DESTS.map(x=>`<button class="chip" data-e="${x}" aria-pressed="false">${x}</button>`).join("");
+  const readEd=()=>{const o=E.d[eDest];FIELDS.forEach(f=>{o[f[0]]=$("#ef-"+f[0]).value});o.lancado=$("#edl").checked};
+  const fillEd=()=>{const o=E.d[eDest];FIELDS.forEach(f=>{$("#ef-"+f[0]).value=o[f[0]]==null?"":o[f[0]]});$("#edl").checked=!!o.lancado;all("#edc .chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.e===eDest))};
+  function openEd(e){E=JSON.parse(JSON.stringify(e));DESTS.forEach(x=>{E.d=E.d||{};E.d[x]=Object.assign({lancado:false},blank(),E.d[x]||{})});eDest=DESTS.indexOf("PVH")>=0&&E.d.PVH.lancado?"PVH":(DESTS.find(x=>E.d[x].lancado)||"PVH");$("#edd").value=e.date;fillEd();ed.showModal()}
+  all("#edc .chip").forEach(c=>c.onclick=()=>{readEd();eDest=c.dataset.e;fillEd()});
+  $("#edf").addEventListener("input",()=>{$("#edl").checked=true});
+  $("#edx").onclick=()=>ed.close();
+  $("#eds").onclick=()=>{
+    readEd(); const nd=$("#edd").value; if(!nd){alert("Informe a data do overview.");return}
+    E.date=nd; const i=H.findIndex(x=>x.id===E.id); if(i>=0)H[i]=E; saveH(); renderHist(); ed.close();
+  };
+  all(".tab").forEach(t=>t.onclick=()=>{const h=t.dataset.tab==="hist";$("#v-painel").hidden=h;$("#v-hist").hidden=!h;all(".tab").forEach(x=>x.setAttribute("aria-pressed",x===t));window.scrollTo(0,0);if(h)setTimeout(prerender,150)});
+
 
   $("#copy").onclick=()=>{const o={data:d.value};DESTS.forEach(x=>{o[x]=Object.assign({lancado:launched(x)},vals(x))});copy(JSON.stringify(o,null,2),"Dados copiados. Cole no objeto DEFAULTS do index.html.")};
   $("#print").onclick=()=>window.print();
   $("#reset").onclick=()=>{if(confirm("Restaurar os valores originais do destino "+S.dest+"?")){delete S.d[S.dest];save();load();calc()}};
-  load(); calc();
+  renderHist(); load(); calc();
 })();
 </script>
 </body>
