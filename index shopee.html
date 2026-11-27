@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embarque Aéreo Shopee · Azul Logística</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#001a4d;--azul:#0033a0;--sky:#00a3e0;--ice:#e8f1fb;--shopee:#ee4d2d;--ink:#0b1b3a;--mut:#5b6b8a;--ok:#12a150;--warn:#e0a100;--bad:#d92d20;--line:#d5e0f0}
+*{box-sizing:border-box}
+body{margin:0;background:#eef3fa;color:var(--ink);font:16px/1.4 Barlow,Calibri,Arial,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.top{background:linear-gradient(120deg,var(--navy),var(--azul));border-radius:16px 16px 0 0;color:#fff;padding:18px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{height:54px;min-width:120px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#fff;padding:6px 14px;cursor:pointer;position:relative}
+.logo img{max-height:100%;max-width:150px}
+.logo:hover::after{content:"trocar logo";position:absolute;bottom:-20px;font-size:11px;color:#fff;background:#0008;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.azul-w{font:700 30px/1 Barlow Condensed,Arial Narrow,sans-serif;color:var(--azul);letter-spacing:-.5px;display:flex;flex-direction:column;align-items:flex-start}
+.azul-w small{font:600 11px/1 Barlow,sans-serif;letter-spacing:2.4px;color:var(--sky);margin-top:3px}
+.shp-w{display:flex;align-items:center;gap:7px;font:700 27px/1 Barlow,Arial,sans-serif;color:var(--shopee)}
+.shp-w i{width:26px;height:28px;background:var(--shopee);border-radius:4px 4px 7px 7px;position:relative;display:block}
+.shp-w i::before{content:"";position:absolute;left:7px;top:-7px;width:12px;height:11px;border:3px solid var(--shopee);border-bottom:0;border-radius:8px 8px 0 0}
+.shp-w i::after{content:"S";position:absolute;inset:3px 0 0;text-align:center;color:#fff;font:700 17px/1.2 Barlow,sans-serif}
+h1{flex:1;min-width:220px;margin:0;text-align:center;font:700 clamp(26px,5vw,40px)/1.05 Barlow Condensed,Arial Narrow,sans-serif;letter-spacing:.5px}
+.ref{background:#fff;border:1px solid var(--line);border-top:0;padding:12px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ref b{font-style:italic;font-weight:600}
+.ref input{font:600 18px Barlow,sans-serif;color:var(--navy);background:#cfe6f7;border:0;border-radius:6px;padding:6px 14px;text-align:center}
+.ref .hint{margin-left:auto;color:var(--mut);font-size:13px}
+.sec{margin-top:14px;border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px #0033a014}
+.sec>h2{margin:0;background:var(--shopee);color:#fff;text-align:center;font:italic 700 22px/1 Barlow Condensed,Arial Narrow,sans-serif;letter-spacing:1.5px;padding:9px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 1fr}
+.cell{border-top:1px solid var(--line)}
+.cell:nth-child(even){border-left:1px solid var(--line)}
+.cell h3{margin:0;background:var(--navy);color:#fff;text-align:center;font:600 16px/1 Barlow Condensed,Arial Narrow,sans-serif;padding:10px 6px;letter-spacing:.4px;text-transform:uppercase}
+.val{font:700 clamp(40px,8vw,58px)/1 Barlow Condensed,Arial Narrow,sans-serif;text-align:center;padding:14px 6px 12px;background:linear-gradient(#fff,var(--ice));outline:0;min-height:80px}
+.val.red{color:var(--bad)}
+.val.txt{color:var(--navy)}
+[contenteditable]:hover{background-color:#fff7d6}
+[contenteditable]:focus{box-shadow:inset 0 0 0 3px var(--sky);background-color:#fff}
+.obs{margin-top:14px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.obs h2{margin:0;background:var(--navy);color:#fff;text-align:center;font:700 20px/1 Barlow Condensed,sans-serif;letter-spacing:1.5px;padding:10px}
+.obs div[contenteditable]{min-height:150px;padding:12px 16px;font-size:17px;background:repeating-linear-gradient(#fff 0 31px,var(--line) 31px 32px);line-height:32px}
+.kpi{margin-top:14px;border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px #0033a014}
+.kpi>h2{margin:0;background:linear-gradient(120deg,var(--azul),var(--sky));color:#fff;text-align:center;font:700 22px/1 Barlow Condensed,sans-serif;letter-spacing:1.5px;padding:9px;text-transform:uppercase}
+.kbody{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:18px 22px;align-items:center}
+.ring{position:relative;width:170px;height:170px;margin:auto}
+.ring svg{transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font:700 42px/1 Barlow Condensed,sans-serif;color:var(--navy)}
+.ring .n small{font:500 13px Barlow,sans-serif;color:var(--mut)}
+.bars{display:grid;gap:14px}
+.bar b{display:flex;justify-content:space-between;font-weight:600;font-size:15px;margin-bottom:4px}
+.bar span.t{display:block;height:14px;border-radius:7px;background:var(--ice);overflow:hidden}
+.bar span.t i{display:block;height:100%;border-radius:7px;transition:width .5s}
+.badge{display:inline-block;padding:5px 14px;border-radius:20px;color:#fff;font-weight:600;font-size:15px}
+.msg{padding:12px 22px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);color:var(--mut);font-size:15px}
+.tools{margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+button{font:600 15px Barlow,sans-serif;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:var(--azul);color:#fff}
+button.g{background:#fff;color:var(--azul);border:1px solid var(--azul)}
+button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+footer{text-align:center;color:var(--mut);font-size:13px;margin:14px 0 4px}
+@media(max-width:640px){.kbody{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.cell:nth-child(even){border-left:0}.ref .hint{margin-left:0}}
+@media print{.tools,.hint{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <label class="logo" title="Clique para trocar a logo">
+    <input type="file" accept="image/*" hidden data-logo="azul">
+    <span class="azul-w">azul<small>LOGÍSTICA</small></span>
+  </label>
+  <h1 contenteditable spellcheck="false" data-k="titulo">EMBARQUE AÉREO SHOPEE</h1>
+  <label class="logo" title="Clique para trocar a logo">
+    <input type="file" accept="image/*" hidden data-logo="shopee">
+    <span class="shp-w"><i></i>Shopee</span>
+  </label>
+</header>
+
+<div class="ref">
+  <b>Data de referência:</b>
+  <input type="date" id="data" aria-label="Data de referência">
+  <span class="hint">Clique em qualquer número ou texto para editar</span>
+</div>
+
+<section class="sec">
+  <h2>Ontem</h2>
+  <div class="grid">
+    <div class="cell"><h3 contenteditable data-k="l1">Remanescentes 24/11</h3><div class="val red" contenteditable inputmode="numeric" data-k="rem">1</div></div>
+    <div class="cell"><h3 contenteditable data-k="l2">Recebimento do dia (ontem)</h3><div class="val" contenteditable inputmode="numeric" data-k="rec">7</div></div>
+    <div class="cell"><h3 contenteditable data-k="l3">Embarque realizado (ontem)</h3><div class="val" contenteditable inputmode="numeric" data-k="emb">10</div></div>
+    <div class="cell"><h3 contenteditable data-k="l4">Total no piso fim do dia (D0)</h3><div class="val" contenteditable inputmode="numeric" data-k="piso">0</div></div>
+    <div class="cell"><h3 contenteditable data-k="l5">Backlog D-2 (23/11)</h3><div class="val red" contenteditable inputmode="numeric" data-k="back">2</div></div>
+    <div class="cell"><h3 contenteditable data-k="l6">Remanescente</h3><div class="val" contenteditable inputmode="numeric" data-k="rem2">0</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Hoje</h2>
+  <div class="grid">
+    <div class="cell"><h3 contenteditable data-k="l7">Lâminas embarcadas (hoje)</h3><div class="val" contenteditable inputmode="numeric" data-k="hemb">0</div></div>
+    <div class="cell"><h3 contenteditable data-k="l8">Recebimento hoje até o momento</h3><div class="val" contenteditable inputmode="numeric" data-k="hrec">7</div></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Previsão</h2>
+  <div class="grid">
+    <div class="cell"><h3 contenteditable data-k="l9">Projeção de embarque</h3><div class="val" contenteditable inputmode="numeric" data-k="proj">10</div></div>
+    <div class="cell"><h3 contenteditable data-k="l10">Previsão fretamentos</h3><div class="val txt" contenteditable data-k="fret">27/nov</div></div>
+  </div>
+</section>
+
+<section class="obs">
+  <h2>Observação</h2>
+  <div contenteditable data-k="obs">Voo matutino atrasado</div>
+</section>
+
+<section class="kpi">
+  <h2>Indicador de fluidez do embarque</h2>
+  <div class="kbody">
+    <div class="ring">
+      <svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="72" fill="none" stroke="#e8f1fb" stroke-width="16"/><circle id="arc" cx="85" cy="85" r="72" fill="none" stroke="#12a150" stroke-width="16" stroke-linecap="round" stroke-dasharray="452" stroke-dashoffset="452" style="transition:stroke-dashoffset .6s,stroke .3s"/></svg>
+      <div class="n"><span id="pct">0%</span><small>embarcado ontem</small></div>
+    </div>
+    <div class="bars">
+      <div class="bar"><b><span>Ontem: embarcado do disponível</span><span id="t1"></span></b><span class="t"><i id="b1" style="background:var(--azul)"></i></span></div>
+      <div class="bar"><b><span>Hoje: projeção cobre o recebido</span><span id="t2"></span></b><span class="t"><i id="b2" style="background:var(--shopee)"></i></span></div>
+      <div class="bar"><b><span>Pendência total (piso + remanescente)</span><span id="t3"></span></b><span class="t"><i id="b3" style="background:var(--sky)"></i></span></div>
+    </div>
+  </div>
+  <div class="msg"><span class="badge" id="st"></span><span id="tx"></span></div>
+</section>
+
+<div class="tools">
+  <button class="g" id="reset">Restaurar valores</button>
+  <button id="print">Imprimir / salvar PDF</button>
+</div>
+<footer>Azul Logística · Operação Shopee · edições ficam salvas neste navegador</footer>
+</div>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)}, all=function(s){return [].slice.call(document.querySelectorAll(s))};
+  var KEY="azul-shopee-painel", S={};
+  try{S=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+  var save=function(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+  var num=function(k){var v=parseFloat((($('[data-k="'+k+'"]')||{}).textContent||"").replace(",","."));return isNaN(v)?0:v};
+
+  all("[data-k]").forEach(function(el){ if(S[el.dataset.k]!=null) el.textContent=S[el.dataset.k]; });
+  var d=$("#data"); d.value=S.data||"2026-11-26";
+  if(S.logoazul||S.logoshopee) all("[data-logo]").forEach(function(i){var u=S["logo"+i.dataset.logo]; if(u) put(i,u);});
+
+  function put(input,url){var l=input.parentNode; var s=l.querySelector("span"); if(s)s.style.display="none"; var im=l.querySelector("img"); if(!im){im=document.createElement("img");l.appendChild(im)} im.src=url;}
+  all("[data-logo]").forEach(function(i){i.addEventListener("change",function(){
+    var f=i.files[0]; if(!f)return; var r=new FileReader();
+    r.onload=function(){put(i,r.result);S["logo"+i.dataset.logo]=r.result;save()}; r.readAsDataURL(f);
+  })});
+
+  function calc(){
+    var disp=num("rem")+num("rec")+num("back"), emb=num("emb");
+    var p=disp>0?Math.min(emb/disp,1):0, pr=Math.round(p*100);
+    var arc=$("#arc"); arc.style.strokeDashoffset=452*(1-p);
+    var cor=pr>=90?"#12a150":pr>=70?"#e0a100":"#d92d20"; arc.style.stroke=cor;
+    $("#pct").textContent=pr+"%";
+    $("#t1").textContent=emb+" de "+disp; $("#b1").style.width=pr+"%";
+    var hr=num("hrec"), pj=num("proj"), cob=hr>0?pj/hr:(pj>0?1.5:0);
+    $("#t2").textContent=pj+" / "+hr+" ("+Math.round(cob*100)+"%)"; $("#b2").style.width=Math.min(cob*100,100)+"%";
+    var pend=num("piso")+num("rem2"), base=Math.max(disp,1);
+    $("#t3").textContent=pend+" un."; $("#b3").style.width=Math.min(pend/base*100,100)+"%";
+    var st=$("#st"), tx=$("#tx");
+    if(pend===0&&cob>=1){st.textContent="Operação em dia";st.style.background="#12a150";tx.textContent="Piso zerado e projeção de hoje cobre o que já foi recebido."}
+    else if(pend>0&&cob>=1){st.textContent="Atenção";st.style.background="#e0a100";tx.textContent="Há "+pend+" un. pendentes, mas a projeção de hoje comporta o recebimento."}
+    else{st.textContent="Risco de acúmulo";st.style.background="#d92d20";tx.textContent="A projeção de embarque não cobre o recebido hoje: risco de formar backlog."}
+  }
+  document.addEventListener("input",function(e){
+    var k=e.target.dataset&&e.target.dataset.k; if(k){S[k]=e.target.textContent;save();calc()}
+    if(e.target===d){S.data=d.value;save()}
+  });
+  document.addEventListener("paste",function(e){var t=e.target; if(t.isContentEditable){e.preventDefault();document.execCommand("insertText",false,(e.clipboardData||window.clipboardData).getData("text"))}});
+  document.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.isContentEditable&&e.target.dataset.k!=="obs"){e.preventDefault();e.target.blur()}});
+  $("#print").onclick=function(){window.print()};
+  $("#reset").onclick=function(){if(confirm("Restaurar todos os valores originais?")){try{localStorage.removeItem(KEY)}catch(e){} location.reload()}};
+  calc();
+})();
+</script>
+</body>
+</html>
