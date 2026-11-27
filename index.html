@@ -81,6 +81,54 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 .sec>h2,.obs h2,.kpi>h2,.kpi>p{text-align:center}
 .sec>h2::after{margin-left:auto;margin-right:auto}
 @media(max-width:760px){.brand{justify-content:center}}
+.pills{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.dbadge{display:inline-block;margin-top:6px;font-size:12px;color:var(--ice)}
+.dbadge b{background:#2a4fd6;color:#fff;border-radius:6px;padding:2px 8px;font-family:ui-monospace,Menlo,Consolas,monospace}
+.frow{display:flex;gap:8px;margin-bottom:8px}
+.frow input{flex:1;min-width:0;font:600 14px Montserrat,sans-serif;color:#fff;background:#00163a;border:1px solid var(--line);border-radius:8px;padding:9px 10px;text-align:center}
+.frow .x{background:transparent;color:var(--ice);border:1px solid var(--line);padding:6px 12px}
+.ftot{margin-top:10px;color:var(--ice);font-size:13px}.ftot b{color:#fff}
+.ltbox{min-height:96px;font-size:15px;white-space:pre-wrap;outline:0;padding:6px;line-height:1.6}
+.obs div[contenteditable]{white-space:pre-wrap}
+[data-ph]:empty::before{content:attr(data-ph);color:var(--ice);opacity:.55}
+.chips{display:flex;gap:6px}
+.chip{background:var(--card);color:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 16px;font:700 13px Montserrat,sans-serif;position:relative}
+.chip[aria-pressed=true]{background:var(--sky);color:#001235;border-color:var(--sky)}
+.chip i{display:none;position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--bg1)}
+.chip.on i{display:block}
+.val.sm{font-size:17px;font-weight:600;line-height:1.6;min-height:56px;white-space:pre-line}
+[data-ph]:empty::before{content:attr(data-ph);color:var(--ice);opacity:.6;font-weight:500}
+.obs div[contenteditable]{white-space:pre-line}
+.gen{text-align:center;margin-top:24px}
+.gen button{font-size:16px;padding:14px 34px;border-radius:12px;box-shadow:0 8px 20px #0006}
+#ovw{margin-top:18px}
+.ovbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.ovbar h2{margin:0;font-size:18px}
+#ovg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.ov{background:#111a2c;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 20px #0006}
+.ov header{display:flex;align-items:center;gap:12px}
+.ov header small{margin-left:auto;color:var(--ice);font-size:12px}
+.ov h3{margin:0;font-size:22px;font-weight:700}
+.bd{background:#2a4fd6;color:#fff;font:700 15px ui-monospace,Menlo,Consolas,monospace;padding:6px 12px;border-radius:9px}
+.big{display:flex;align-items:baseline;gap:10px;margin:14px 0}
+.big b{font-size:56px;font-weight:700;line-height:1}
+.big span{color:var(--ice);font-size:15px}
+.rows{background:#0b1322;border-radius:14px}
+.r{display:grid;grid-template-columns:1.2fr 1fr auto;gap:10px;align-items:center;padding:12px 14px;font-size:14px}
+.r+.r{border-top:1px solid var(--line)}
+.r span{color:var(--ice)}
+.pill{font-style:normal;font-size:12px;padding:5px 10px;border-radius:8px;white-space:nowrap}
+.pill.b{background:rgba(42,79,214,.28);color:#8aa8ff}
+.pill.w{background:rgba(242,194,48,.16);color:#f2c230}
+.pill.o{background:rgba(47,210,122,.16);color:#2fd27a}
+.sep{height:1px;background:var(--line);margin:14px 0}
+.line{display:flex;justify-content:space-between;gap:10px;font-size:16px}
+.sub{color:var(--ice);font-size:14px;margin:8px 0 0 22px}
+.ov h4{margin:12px 0 2px;font-size:14px}
+.ov p{margin:0;color:var(--ice);font-size:14px}
+.ov .mut{opacity:.7}
+.ov .badge{display:inline-block;margin-top:14px}
+@media print{.gen,.ovbar button,.chips{display:none}}
 </style>
 </head>
 <body>
@@ -100,7 +148,7 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   </div>
   <div class="ttl">
     <h1 contenteditable spellcheck="false" data-k="titulo">Embarque Aéreo Shopee</h1>
-    <p contenteditable spellcheck="false" data-k="sub">Painel diário da operação</p>
+    <p contenteditable spellcheck="false" 
   </div>
   <div class="clock"><b id="clk">--:--</b><small id="dt"></small></div>
 </header>
@@ -108,7 +156,18 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 <div class="ref">
   <b>Data de referência:</b>
   <input type="date" id="data" aria-label="Data de referência">
-  <span class="hint">Clique em qualquer número ou texto para editar</span>
+  <b>Destino:</b>
+  <div class="chips" role="group" aria-label="Destino">
+    <button class="chip" data-dest="MAO" aria-pressed="false">MAO<i></i></button>
+    <button class="chip" data-dest="FOR" aria-pressed="false">FOR<i></i></button>
+    <button class="chip" data-dest="PVH" aria-pressed="true">PVH<i></i></button>
+  </div>
+  <div class="pills" role="group" aria-label="Destino">
+    <button type="button" class="pill" data-d="MAO">MAO</button>
+    <button type="button" class="pill" data-d="FOR">FOR</button>
+    <button type="button" class="pill" data-d="PVH">PVH</button>
+  </div>
+  <span class="hint">Escolha o destino e lance os dados dele</span>
 </div>
 
 <section class="sec">
@@ -128,6 +187,7 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   <div class="grid">
     <div class="card"><h3 contenteditable data-k="l7">Lâminas embarcadas (hoje)</h3><div class="val" contenteditable inputmode="numeric" data-k="hemb">0</div></div>
     <div class="card"><h3 contenteditable data-k="l8">Recebimento hoje até o momento</h3><div class="val" contenteditable inputmode="numeric" data-k="hrec">7</div></div>
+    <div class="card"><h3 contenteditable data-k="l11">Voos que embarcaram hoje</h3><div class="val sm" contenteditable data-ph="Um por linha. Ex.: AD9900 · 9 lâminas" data-k="voos"></div></div>
   </div>
 </section>
 
@@ -135,13 +195,27 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   <h2>Previsão</h2>
   <div class="grid">
     <div class="card"><h3 contenteditable data-k="l9">Projeção de embarque</h3><div class="val" contenteditable inputmode="numeric" data-k="proj">10</div></div>
-    <div class="card"><h3 contenteditable data-k="l10">Previsão fretamentos</h3><div class="val" contenteditable data-k="fret">27/nov</div></div>
+    <div class="card"><h3 contenteditable data-k="l10">Previsão fretamentos</h3><div class="val" contenteditable data-k="fret" data-ph="—">27/nov</div></div>
   </div>
+</section>
+
+<section class="sec">
+  <h2>Voos embarcados hoje</h2>
+  <div class="card">
+    <div id="flights"></div>
+    <button type="button" class="g" id="addf">+ Adicionar voo</button>
+    <div class="ftot">Total embarcado hoje: <b id="ftot">0</b> lâminas</div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>LTs do dia</h2>
+  <div class="card"><div class="ltbox" contenteditable="plaintext-only" spellcheck="false" data-k="lt" data-ph="Uma LT por linha. Vazio = nenhuma LT lançada."></div></div>
 </section>
 
 <section class="obs">
   <h2>Observação</h2>
-  <div contenteditable spellcheck="false" data-k="obs">Voo matutino atrasado</div>
+  <div contenteditable="plaintext-only" spellcheck="false" data-k="obs" data-ph="Sem observações"></div>
 </section>
 
 <section class="kpi">
@@ -161,6 +235,12 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
   <div class="msg"><span class="badge" id="st"></span><span id="tx"></span></div>
 </section>
 
+<div class="gen"><button id="gen">Gerar overview</button></div>
+<section id="ovw" hidden>
+  <div class="ovbar"><h2>Overview da operação</h2><button class="g" id="cpt">Copiar texto (WhatsApp)</button></div>
+  <div id="ovg"></div>
+</section>
+
 <div class="tools">
   <button class="g" id="reset">Restaurar valores</button>
   <button class="g" id="copy">Copiar dados (JSON)</button>
@@ -171,55 +251,117 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 
 <script>
 (function(){
-  var $=function(s){return document.querySelector(s)}, all=function(s){return [].slice.call(document.querySelectorAll(s))};
+  const $=s=>document.querySelector(s), all=s=>[].slice.call(document.querySelectorAll(s));
+  const DESTS=["MAO","FOR","PVH"];
   // Valores padrão exibidos para todos os visitantes do site. Edite aqui e faça commit no GitHub.
-  var DEFAULTS={data:"2026-11-26",rem:"1",rec:"7",emb:"10",piso:"0",back:"2",rem2:"0",hemb:"0",hrec:"7",proj:"10",fret:"27/nov",obs:"Voo matutino atrasado"};
-  var KEY="azul-shopee-painel", S={};
-  try{S=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
-  var save=function(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
-  var num=function(k){var v=parseFloat((($('[data-k="'+k+'"]')||{}).textContent||"").replace(",","."));return isNaN(v)?0:v};
+  // lancado:true = destino com dados lançados; false = aparece como "Nenhum dado lançado" no overview.
+  const DEFAULTS={data:"2026-11-26",
+    PVH:{lancado:true,rem:"1",rec:"7",emb:"10",piso:"0",back:"2",rem2:"0",hemb:"0",hrec:"7",proj:"10",fret:"27/nov",obs:"Voo matutino atrasado",voos:""},
+    FOR:{lancado:false,rem:"0",rec:"0",emb:"0",piso:"0",back:"0",rem2:"0",hemb:"0",hrec:"0",proj:"0",fret:"",obs:"",voos:""},
+    MAO:{lancado:false,rem:"0",rec:"0",emb:"0",piso:"0",back:"0",rem2:"0",hemb:"0",hrec:"0",proj:"0",fret:"",obs:"",voos:""}};
+  const KEY="azul-shopee-painel-v2", GL={titulo:1,sub:1};
+  let S={}; try{S=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+  S.d=S.d||{}; S.dest=S.dest||"PVH";
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+  const labDef={}; all("h3[data-k]").forEach(h=>labDef[h.dataset.k]=h.textContent);
+  const get=(dst,k)=>{const a=S.d[dst]; if(a&&a[k]!=null)return a[k]; const b=DEFAULTS[dst]; return b&&b[k]!=null?b[k]:null};
+  const launched=dst=>!!get(dst,"lancado");
+  const txt=el=>el.innerText.replace(/\n+$/,"");
+  const n=x=>{const v=parseFloat(String(x==null?"0":x).replace(",","."));return isNaN(v)?0:v};
+  const KEYS=["rem","rec","emb","piso","back","rem2","hemb","hrec","proj","fret","obs","voos"];
+  const vals=dst=>{const v={};KEYS.forEach(k=>{const g=get(dst,k);v[k]=g==null?(k==="fret"||k==="obs"||k==="voos"?"":"0"):g});return v};
 
-  all("[data-k]").forEach(function(el){var k=el.dataset.k,v=S[k]!=null?S[k]:DEFAULTS[k]; if(v!=null) el.textContent=v;});
-  var d=$("#data"); d.value=S.data||DEFAULTS.data;
+  function metrics(v,lan){
+    const disp=n(v.rem)+n(v.rec)+n(v.back), emb=n(v.emb), p=disp>0?Math.min(emb/disp,1):0;
+    const hr=n(v.hrec), pj=n(v.proj), cob=hr>0?pj/hr:(pj>0?1.5:0), pend=n(v.piso)+n(v.rem2);
+    const noPiso=Math.max(pend+hr-n(v.hemb),0); let st;
+    if(!lan) st=["Sem dados","#9fb4d6","Lance os números deste destino para ver o indicador."];
+    else if(pend===0&&cob>=1) st=["Operação em dia","#2fd27a","Piso zerado e projeção de hoje cobre o que já foi recebido."];
+    else if(pend>0&&cob>=1) st=["Atenção","#f2c230","Há "+pend+" un. pendentes, mas a projeção de hoje comporta o recebimento."];
+    else st=["Risco de acúmulo","#ff5a4f","A projeção de embarque não cobre o recebido hoje: risco de formar backlog."];
+    return {disp,emb,p,pr:Math.round(p*100),hr,pj,cob,pend,noPiso,st};
+  }
 
-  function put(input,url){var l=input.parentNode; var s=l.querySelector("span"); if(s)s.style.display="none"; var im=l.querySelector("img"); if(!im){im=document.createElement("img");l.appendChild(im)} im.src=url;}
-  all("[data-logo]").forEach(function(i){
-    var u=S["logo"+i.dataset.logo]; if(u) put(i,u);
-    i.addEventListener("change",function(){
-      var f=i.files[0]; if(!f)return; var r=new FileReader();
-      r.onload=function(){put(i,r.result);S["logo"+i.dataset.logo]=r.result;save()}; r.readAsDataURL(f);
-    });
+  function chips(){all(".chip").forEach(c=>{c.setAttribute("aria-pressed",c.dataset.dest===S.dest);c.classList.toggle("on",launched(c.dataset.dest))})}
+  function load(){
+    all("[data-k]").forEach(el=>{const k=el.dataset.k; let v;
+      if(GL[k]) v=S[k];
+      else{v=get(S.dest,k); if(v==null) v=labDef[k]!=null?labDef[k]:(k==="fret"||k==="obs"||k==="voos"?"":"0")}
+      if(v!=null) el.textContent=v;});
+    chips();
+  }
+  const d=$("#data"); d.value=S.data||DEFAULTS.data;
+
+  function put(input,url){const l=input.parentNode; const s=l.querySelector("span"); if(s)s.style.display="none"; let im=l.querySelector("img"); if(!im){im=document.createElement("img");l.appendChild(im)} im.src=url;}
+  all("[data-logo]").forEach(i=>{
+    const u=S["logo"+i.dataset.logo]; if(u) put(i,u);
+    i.addEventListener("change",()=>{const f=i.files[0]; if(!f)return; const r=new FileReader();
+      r.onload=()=>{put(i,r.result);S["logo"+i.dataset.logo]=r.result;save()}; r.readAsDataURL(f);});
   });
 
-  function tick(){var n=new Date();$("#clk").textContent=("0"+n.getHours()).slice(-2)+":"+("0"+n.getMinutes()).slice(-2);$("#dt").textContent=n.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}
+  function tick(){const t=new Date();$("#clk").textContent=("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2);$("#dt").textContent=t.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}
   tick(); setInterval(tick,15000);
 
   function calc(){
-    var disp=num("rem")+num("rec")+num("back"), emb=num("emb");
-    var p=disp>0?Math.min(emb/disp,1):0, pr=Math.round(p*100);
-    var arc=$("#arc"); arc.style.strokeDashoffset=452*(1-p);
-    arc.style.stroke=pr>=90?"#2fd27a":pr>=70?"#f2c230":"#ff5a4f";
-    $("#pct").textContent=pr+"%";
-    $("#t1").textContent=emb+" de "+disp; $("#b1").style.width=pr+"%";
-    var hr=num("hrec"), pj=num("proj"), cob=hr>0?pj/hr:(pj>0?1.5:0);
-    $("#t2").textContent=pj+" / "+hr+" ("+Math.round(cob*100)+"%)"; $("#b2").style.width=Math.min(cob*100,100)+"%";
-    var pend=num("piso")+num("rem2"), base=Math.max(disp,1);
-    $("#t3").textContent=pend+" un."; $("#b3").style.width=Math.min(pend/base*100,100)+"%";
-    var st=$("#st"), tx=$("#tx");
-    if(pend===0&&cob>=1){st.textContent="Operação em dia";st.style.background="#2fd27a";tx.textContent="Piso zerado e projeção de hoje cobre o que já foi recebido."}
-    else if(pend>0&&cob>=1){st.textContent="Atenção";st.style.background="#f2c230";tx.textContent="Há "+pend+" un. pendentes, mas a projeção de hoje comporta o recebimento."}
-    else{st.textContent="Risco de acúmulo";st.style.background="#ff5a4f";tx.textContent="A projeção de embarque não cobre o recebido hoje: risco de formar backlog."}
+    const m=metrics(vals(S.dest),launched(S.dest)), arc=$("#arc");
+    arc.style.strokeDashoffset=452*(1-m.p);
+    arc.style.stroke=m.pr>=90?"#2fd27a":m.pr>=70?"#f2c230":"#ff5a4f";
+    $("#pct").textContent=m.pr+"%";
+    $("#t1").textContent=m.emb+" de "+m.disp; $("#b1").style.width=m.pr+"%";
+    $("#t2").textContent=m.pj+" / "+m.hr+" ("+Math.round(m.cob*100)+"%)"; $("#b2").style.width=Math.min(m.cob*100,100)+"%";
+    $("#t3").textContent=m.pend+" un."; $("#b3").style.width=Math.min(m.pend/Math.max(m.disp,1)*100,100)+"%";
+    $("#st").textContent=m.st[0]; $("#st").style.background=m.st[1]; $("#tx").textContent=m.st[2];
   }
-  document.addEventListener("input",function(e){
-    var k=e.target.dataset&&e.target.dataset.k; if(k){S[k]=e.target.textContent;save();calc()}
-    if(e.target===d){S.data=d.value;save()}
+
+  all(".chip").forEach(c=>c.addEventListener("click",()=>{S.dest=c.dataset.dest;save();load();calc()}));
+  document.addEventListener("input",e=>{const t=e.target,k=t.dataset&&t.dataset.k;
+    if(k){const v=txt(t); if(GL[k]) S[k]=v; else{(S.d[S.dest]=S.d[S.dest]||{})[k]=v;S.d[S.dest].lancado=true;}
+      save();chips();calc()}
+    if(t===d){S.data=d.value;save()}
   });
-  document.addEventListener("paste",function(e){if(e.target.isContentEditable){e.preventDefault();document.execCommand("insertText",false,(e.clipboardData||window.clipboardData).getData("text"))}});
-  document.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.isContentEditable&&e.target.dataset.k!=="obs"){e.preventDefault();e.target.blur()}});
-  $("#copy").onclick=function(){var o={data:d.value};Object.keys(DEFAULTS).forEach(function(k){if(k!=="data")o[k]=($('[data-k="'+k+'"]')||{}).textContent});var t=JSON.stringify(o,null,2);try{navigator.clipboard.writeText(t).then(function(){alert("Dados copiados. Cole no objeto DEFAULTS do index.html.")})}catch(e){prompt("Copie:",t)}};
-  $("#print").onclick=function(){window.print()};
-  $("#reset").onclick=function(){if(confirm("Restaurar todos os valores originais?")){try{localStorage.removeItem(KEY)}catch(e){} location.reload()}};
-  calc();
+  document.addEventListener("paste",e=>{if(e.target.isContentEditable){e.preventDefault();document.execCommand("insertText",false,(e.clipboardData||window.clipboardData).getData("text"))}});
+  document.addEventListener("keydown",e=>{const k=e.target.dataset&&e.target.dataset.k;if(e.key==="Enter"&&e.target.isContentEditable&&k!=="obs"&&k!=="voos"){e.preventDefault();e.target.blur()}});
+
+  // ---------- Overview ----------
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const lam=x=>n(x)+(n(x)===1?" lâmina":" lâminas");
+  const pill=(x,a,b)=>n(x)>0?`<em class="pill w">${b}</em>`:`<em class="pill o">${a}</em>`;
+  const lines=s=>String(s).split("\n").map(x=>x.trim()).filter(Boolean);
+  const dstr=()=>{const p=(d.value||"").split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:""};
+  function card(dst){
+    const h=`<header><span class="bd">${dst}</span><h3>Shopee</h3><small>${dstr()}</small></header>`;
+    if(!launched(dst)) return `<article class="ov">${h}<p class="mut" style="margin-top:14px">Nenhum dado lançado para ${dst}.</p></article>`;
+    const v=vals(dst), m=metrics(v,true);
+    const voos=lines(v.voos).map(x=>`<div class="sub">${esc(x)}</div>`).join("");
+    return `<article class="ov">${h}
+      <div class="big"><b>${m.noPiso}</b><span>${m.noPiso===1?"lâmina":"lâminas"} no piso agora</span></div>
+      <div class="rows">
+        <div class="r"><strong>Backlog D-2</strong><span>${lam(v.back)}</span>${pill(v.back,"zerado","pendente")}</div>
+        <div class="r"><strong>Remanescentes</strong><span>${lam(v.rem)}</span>${pill(v.rem,"zerado","pendente")}</div>
+        <div class="r"><strong>Recebido hoje</strong><span>${lam(v.hrec)}</span><em class="pill b">${n(v.hemb)} embarcadas</em></div>
+      </div>
+      <div class="sep"></div>
+      <div class="line"><span>✈ Embarcou hoje</span><strong>${lam(v.hemb)}</strong></div>${voos}
+      <div class="sub">Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)</div>
+      <div class="sep"></div>
+      <h4>Previsão</h4><p>Projeção de embarque: ${lam(v.proj)}${v.fret?" · Fretamentos: "+esc(v.fret):""}</p>
+      <h4>Observação</h4><p class="${v.obs?"":"mut"}">${v.obs?esc(v.obs).replace(/\n/g,"<br>"):"Sem observações."}</p>
+      <span class="badge" style="background:${m.st[1]}">${m.st[0]}</span></article>`;
+  }
+  function textFor(dst){
+    if(!launched(dst)) return `*${dst} · Shopee*\nNenhum dado lançado.`;
+    const v=vals(dst), m=metrics(v,true);
+    return [`*${dst} · Shopee* (${dstr()})`,`Lâminas no piso agora: ${m.noPiso}`,`Backlog D-2: ${n(v.back)} | Remanescentes: ${n(v.rem)}`,`Recebido hoje: ${n(v.hrec)} | Embarcou hoje: ${n(v.hemb)}`]
+      .concat(lines(v.voos).map(x=>"  • "+x),[`Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)`,`Projeção de embarque: ${n(v.proj)}${v.fret?" | Fretamentos: "+v.fret:""}`,`Obs: ${v.obs||"sem observações"}`,`Status: ${m.st[0]}`]).join("\n");
+  }
+  const copy=(t,msg)=>{try{navigator.clipboard.writeText(t).then(()=>alert(msg))}catch(e){prompt("Copie:",t)}};
+  $("#gen").onclick=()=>{$("#ovg").innerHTML=DESTS.map(card).join("");$("#ovw").hidden=false;$("#ovw").scrollIntoView({behavior:"smooth"})};
+  $("#cpt").onclick=()=>copy(DESTS.map(textFor).join("\n\n"),"Texto copiado.");
+
+  $("#copy").onclick=()=>{const o={data:d.value};DESTS.forEach(x=>{o[x]=Object.assign({lancado:launched(x)},vals(x))});copy(JSON.stringify(o,null,2),"Dados copiados. Cole no objeto DEFAULTS do index.html.")};
+  $("#print").onclick=()=>window.print();
+  $("#reset").onclick=()=>{if(confirm("Restaurar os valores originais do destino "+S.dest+"?")){delete S.d[S.dest];save();load();calc()}};
+  load(); calc();
 })();
 </script>
 </body>
