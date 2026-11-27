@@ -438,22 +438,22 @@ button.wa svg{width:22px;height:22px;flex:none}
       return `<section class="day"><h3 class="dh">${t}<small>${es.length} overview${es.length>1?"s":""}</small></h3>`+es.map(e=>{
         const hr=new Date(e.ts).toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
         const cs=DESTS.filter(x=>getD(e)[x]&&getD(e)[x].lancado).map(x=>card(x,getD(e)[x],e.date)).join("")||'<p class="empty">Nenhum destino lançado neste overview.</p>';
-        return `<div class="he" data-id="${e.id}"><div class="hbar"><b>Gerado às ${hr}</b><span><button class="g" data-a="ed">Editar</button><button class="g" data-a="cp">Copiar texto</button><button class="g dng" data-a="del">Excluir</button></span></div><div class="cap"><div class="caph">Embarque Aéreo Shopee · ${dfmt(e.date)} · ${hr}</div><div class="hg">${cs}</div></div><div class="wab"><button class="wa" data-a="wa">${WAI} Enviar para WhatsApp</button></div></div>`}).join("")+`</section>`;
+        return `<div class="he" data-id="${e.id}"><div class="hbar"><b>Gerado às ${hr} · ${entDest(e)}</b><span><button class="g" data-a="ed">Editar</button><button class="g" data-a="cp">Copiar texto</button><button class="g dng" data-a="del">Excluir</button></span></div><div class="cap"><div class="caph">Embarque Aéreo Shopee · ${dfmt(e.date)} · ${hr}</div><div class="hg">${cs}</div></div><div class="wab"><button class="wa" data-a="wa">${WAI} Enviar para WhatsApp</button></div></div>`}).join("")+`</section>`;
     }).join("");
   }
-  const snap=()=>{const o={};DESTS.forEach(x=>o[x]=cur(x));return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts:new Date().toISOString(),date:d.value||DEFAULTS.data,d:o}};
+  const snap=()=>{const o={};DESTS.forEach(x=>o[x]=cur(x));return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts:new Date().toISOString(),date:d.value||DEFAULTS.data,dest:S.dest,d:o}};
   $("#gen").onclick=()=>{
     H.unshift(snap()); saveH(); renderHist();
     $("#ovg").innerHTML=DESTS.map(x=>card(x,cur(x),d.value)).join("");
     $("#sv").textContent="✓ Salvo em Overviews gerados"; $("#ovw").hidden=false; $("#ovw").scrollIntoView({behavior:"smooth"});
   };
-  $("#cpt").onclick=()=>copy(DESTS.map(x=>textFor(x,cur(x),d.value)).join("\n\n"),"Texto copiado.");
+  $("#cpt").onclick=()=>copy(textFor(S.dest,cur(S.dest),d.value),"Texto copiado.");
   $("#hclear").onclick=()=>{if(H.length&&confirm("Excluir TODOS os overviews gerados?")){H=[];saveH();renderHist()}};
   $("#hl").addEventListener("click",ev=>{
     const b=ev.target.closest("button[data-a]"); if(!b)return;
     const i=H.findIndex(x=>x.id===b.closest(".he").dataset.id); if(i<0)return;
     if(b.dataset.a==="del"){if(confirm("Excluir este overview?")){H.splice(i,1);saveH();renderHist()}}
-    else if(b.dataset.a==="cp") copy(DESTS.map(x=>textFor(x,getD(H[i])[x],H[i].date)).join("\n\n"),"Texto copiado.");
+    else if(b.dataset.a==="cp") copy(fullText(H[i]),"Texto copiado.");
     else if(b.dataset.a==="wa") sendWA(i);
     else openEd(H[i]);
   });
@@ -461,7 +461,8 @@ button.wa svg{width:22px;height:22px;flex:none}
   // ---------- Enviar para WhatsApp (automático) ----------
   const IMG={};
   const sigOf=e=>JSON.stringify([e.date,e.d]);
-  const fullText=e=>DESTS.map(x=>textFor(x,getD(e)[x],e.date)).join("\n\n");
+  const entDest=e=>{if(e.dest&&DESTS.indexOf(e.dest)>=0)return e.dest;const L=DESTS.filter(x=>getD(e)[x]&&getD(e)[x].lancado);return L.indexOf("PVH")>=0?"PVH":(L[0]||"PVH")};
+  const fullText=e=>{const x=entDest(e);return textFor(x,getD(e)[x],e.date)};
   const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),6000)};
   function makeImg(e){
     const sig=sigOf(e), c=IMG[e.id];
