@@ -56,20 +56,6 @@ h1{margin:0;font-size:clamp(20px,3.2vw,28px);font-weight:700;outline:0}
 .obs{margin-top:18px;background:var(--card);border-radius:10px;border-top:4px solid var(--sky);overflow:hidden;box-shadow:0 8px 20px #0006}
 .obs h2{margin:0;padding:12px 16px 8px;font-size:16px;font-weight:700}
 .obs div[contenteditable]{min-height:224px;padding:0 16px;font-size:16px;line-height:32px;text-align:center;outline:0;border-radius:0;background:repeating-linear-gradient(transparent 0 31px,var(--line) 31px 32px) local;border-top:1px solid var(--line)}
-.kpi{margin-top:18px;background:var(--card);border-radius:10px;border-top:4px solid var(--sky);box-shadow:0 8px 20px #0006}
-.kpi>h2{margin:0;padding:12px 16px 0;font-size:16px;font-weight:700}
-.kpi>p{margin:2px 16px 0;color:var(--ice);font-size:12px}
-.kbody{display:grid;grid-template-columns:190px 1fr;gap:22px;padding:16px;align-items:center}
-.ring{position:relative;width:170px;height:170px;margin:auto}
-.ring svg{transform:rotate(-90deg)}
-.ring .n{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-size:40px;font-weight:800;line-height:1}
-.ring .n small{font:500 12px Montserrat,sans-serif;color:var(--ice);margin-top:4px}
-.bars{display:grid;gap:14px}
-.bar b{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:13px;margin-bottom:5px}
-.bar .t{display:block;height:12px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden}
-.bar .t i{display:block;height:100%;border-radius:6px;transition:width .5s}
-.msg{padding:12px 16px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);color:var(--ice);font-size:13px}
-.badge{padding:5px 14px;border-radius:20px;color:#001235;font-weight:700;font-size:13px}
 .tools{margin-top:18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 button{font:600 13px Montserrat,sans-serif;border:0;border-radius:8px;padding:9px 16px;cursor:pointer;background:var(--sky);color:#001235}
 button.g{background:transparent;color:#fff;border:1px solid var(--line)}
@@ -78,7 +64,7 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 @media(max-width:760px){.top{grid-template-columns:1fr;text-align:center}.brand{justify-content:center}.clock{text-align:center}.kbody{grid-template-columns:1fr}.ref .hint{margin-left:0}}
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.tools,.hint{display:none}}
 .card{text-align:center}
-.sec>h2,.obs h2,.kpi>h2,.kpi>p{text-align:center}
+.sec>h2,.obs h2{text-align:center}
 .sec>h2::after{margin-left:auto;margin-right:auto}
 @media(max-width:760px){.brand{justify-content:center}}
 .pills{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
@@ -127,7 +113,6 @@ footer{text-align:center;color:var(--ice);font-size:12px;margin-top:16px}
 .ov h4{margin:12px 0 2px;font-size:14px}
 .ov p{margin:0;color:var(--ice);font-size:14px}
 .ov .mut{opacity:.7}
-.ov .badge{display:inline-block;margin-top:14px}
 @media print{.gen,.ovbar button,.chips{display:none}}
 .tabs{display:flex;gap:8px;margin:16px 0 0;border-bottom:1px solid var(--line)}
 .tab{background:transparent;color:var(--ice);border:0;border-bottom:3px solid transparent;border-radius:0;padding:10px 16px;font:700 14px Montserrat,sans-serif}
@@ -263,23 +248,6 @@ button.wa svg{width:22px;height:22px;flex:none}
   <div contenteditable="plaintext-only" spellcheck="false" data-k="obs" data-ph="Sem observações"></div>
 </section>
 
-<section class="kpi">
-  <h2>Indicador de fluidez do embarque</h2>
-  <p>Calculado automaticamente com os números acima</p>
-  <div class="kbody">
-    <div class="ring">
-      <svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="16"/><circle id="arc" cx="85" cy="85" r="72" fill="none" stroke="#2fd27a" stroke-width="16" stroke-linecap="round" stroke-dasharray="452" stroke-dashoffset="452" style="transition:stroke-dashoffset .6s,stroke .3s"/></svg>
-      <div class="n"><span id="pct">0%</span><small>embarcado ontem</small></div>
-    </div>
-    <div class="bars">
-      <div class="bar"><b><span>Ontem: embarcado do disponível</span><span id="t1"></span></b><span class="t"><i id="b1" style="background:#1e9be0"></i></span></div>
-      <div class="bar"><b><span>Hoje: projeção cobre o recebido</span><span id="t2"></span></b><span class="t"><i id="b2" style="background:#7cc4ee"></i></span></div>
-      <div class="bar"><b><span>Pendência total (piso + remanescente)</span><span id="t3"></span></b><span class="t"><i id="b3" style="background:#f2c230"></i></span></div>
-    </div>
-  </div>
-  <div class="msg"><span class="badge" id="st"></span><span id="tx"></span></div>
-</section>
-
 <div class="gen"><button id="gen">Gerar overview</button></div>
 <section id="ovw" hidden>
   <div class="ovbar"><h2>Overview da operação</h2><span class="svmsg" id="sv"></span><button class="g" id="cpt">Copiar texto (WhatsApp)</button></div>
@@ -338,12 +306,8 @@ button.wa svg{width:22px;height:22px;flex:none}
   function metrics(v,lan){
     const disp=n(v.rem)+n(v.rec)+n(v.back), emb=n(v.emb), p=disp>0?Math.min(emb/disp,1):0;
     const hr=n(v.hrec), pj=n(v.proj), cob=hr>0?pj/hr:(pj>0?1.5:0), pend=n(v.piso)+n(v.rem2);
-    const noPiso=Math.max(pend+hr-n(v.hemb),0); let st;
-    if(!lan) st=["Sem dados","#9fb4d6","Lance os números deste destino para ver o indicador."];
-    else if(pend===0&&cob>=1) st=["Operação em dia","#2fd27a","Piso zerado e projeção de hoje cobre o que já foi recebido."];
-    else if(pend>0&&cob>=1) st=["Atenção","#f2c230","Há "+pend+" un. pendentes, mas a projeção de hoje comporta o recebimento."];
-    else st=["Risco de acúmulo","#ff5a4f","A projeção de embarque não cobre o recebido hoje: risco de formar backlog."];
-    return {disp,emb,p,pr:Math.round(p*100),hr,pj,cob,pend,noPiso,st};
+    const noPiso=n(v.rem2)+n(v.hrec);
+    return {disp,emb,p,pr:Math.round(p*100),hr,pj,cob,pend,noPiso};
   }
 
   function chips(){all(".chip").forEach(c=>{c.setAttribute("aria-pressed",c.dataset.dest===S.dest);c.classList.toggle("on",launched(c.dataset.dest))})}
@@ -366,21 +330,10 @@ button.wa svg{width:22px;height:22px;flex:none}
   function tick(){const t=new Date();$("#clk").textContent=("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2);$("#dt").textContent=t.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"})}
   tick(); setInterval(tick,15000);
 
-  function calc(){
-    const m=metrics(vals(S.dest),launched(S.dest)), arc=$("#arc");
-    arc.style.strokeDashoffset=452*(1-m.p);
-    arc.style.stroke=m.pr>=90?"#2fd27a":m.pr>=70?"#f2c230":"#ff5a4f";
-    $("#pct").textContent=m.pr+"%";
-    $("#t1").textContent=m.emb+" de "+m.disp; $("#b1").style.width=m.pr+"%";
-    $("#t2").textContent=m.pj+" / "+m.hr+" ("+Math.round(m.cob*100)+"%)"; $("#b2").style.width=Math.min(m.cob*100,100)+"%";
-    $("#t3").textContent=m.pend+" un."; $("#b3").style.width=Math.min(m.pend/Math.max(m.disp,1)*100,100)+"%";
-    $("#st").textContent=m.st[0]; $("#st").style.background=m.st[1]; $("#tx").textContent=m.st[2];
-  }
-
-  all(".chip").forEach(c=>c.addEventListener("click",()=>{S.dest=c.dataset.dest;save();load();calc()}));
+  all(".chip").forEach(c=>c.addEventListener("click",()=>{S.dest=c.dataset.dest;save();load();}));
   document.addEventListener("input",e=>{const t=e.target,k=t.dataset&&t.dataset.k;
     if(k){const v=txt(t); if(GL[k]) S[k]=v; else{(S.d[S.dest]=S.d[S.dest]||{})[k]=v;S.d[S.dest].lancado=true;}
-      save();chips();calc()}
+      save();chips();}
     if(t===d){S.data=d.value;save()}
   });
   document.addEventListener("paste",e=>{if(e.target.isContentEditable){e.preventDefault();document.execCommand("insertText",false,(e.clipboardData||window.clipboardData).getData("text"))}});
@@ -410,14 +363,13 @@ button.wa svg{width:22px;height:22px;flex:none}
       <div class="sub">Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)</div>
       <div class="sep"></div>
       <h4>Previsão</h4><p>Projeção de embarque: ${lam(v.proj)}${v.fret?" · Fretamentos: "+esc(v.fret):""}</p>
-      <h4>Observação</h4><p class="${v.obs?"":"mut"}">${v.obs?esc(v.obs).replace(/\n/g,"<br>"):"Sem observações."}</p>
-      <span class="badge" style="background:${m.st[1]}">${m.st[0]}</span></article>`;
+      <h4>Observação</h4><p class="${v.obs?"":"mut"}">${v.obs?esc(v.obs).replace(/\n/g,"<br>"):"Sem observações."}</p></article>`;
   }
   function textFor(dst,o,ds){
     if(!o||!o.lancado) return `*${dst} · Shopee*\nNenhum dado lançado.`;
     const v=o, m=metrics(v,true);
     return [`*${dst} · Shopee* (${dfmt(ds)})`,`Lâminas no piso agora: ${m.noPiso}`,`Backlog D-2: ${n(v.back)} | Remanescentes: ${n(v.rem)}`,`Recebido hoje: ${n(v.hrec)} | Embarcou hoje: ${n(v.hemb)}`]
-      .concat(lines(v.voos).map(x=>"  • "+x),[`Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)`,`Projeção de embarque: ${n(v.proj)}${v.fret?" | Fretamentos: "+v.fret:""}`,`Obs: ${v.obs||"sem observações"}`,`Status: ${m.st[0]}`]).join("\n");
+      .concat(lines(v.voos).map(x=>"  • "+x),[`Ontem: ${m.emb} de ${m.disp} embarcadas (${m.pr}%)`,`Projeção de embarque: ${n(v.proj)}${v.fret?" | Fretamentos: "+v.fret:""}`,`Obs: ${v.obs||"sem observações"}`]).join("\n");
   }
   const copy=(t,msg)=>{try{navigator.clipboard.writeText(t).then(()=>alert(msg))}catch(e){prompt("Copie:",t)}};
   // ---------- Histórico: Overviews gerados ----------
@@ -515,8 +467,8 @@ button.wa svg{width:22px;height:22px;flex:none}
 
   $("#copy").onclick=()=>{const o={data:d.value};DESTS.forEach(x=>{o[x]=Object.assign({lancado:launched(x)},vals(x))});copy(JSON.stringify(o,null,2),"Dados copiados. Cole no objeto DEFAULTS do index.html.")};
   $("#print").onclick=()=>window.print();
-  $("#reset").onclick=()=>{if(confirm("Restaurar os valores originais do destino "+S.dest+"?")){delete S.d[S.dest];save();load();calc()}};
-  renderHist(); load(); calc();
+  $("#reset").onclick=()=>{if(confirm("Restaurar os valores originais do destino "+S.dest+"?")){delete S.d[S.dest];save();load();}};
+  renderHist(); load(); 
 })();
 </script>
 </body>
